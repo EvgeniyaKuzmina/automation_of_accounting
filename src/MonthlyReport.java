@@ -17,35 +17,35 @@ public class MonthlyReport  {
         boolean checkMonth02 = false;
         boolean checkMonth03 = false;
 
-            for (int j = 1; j < YearlyReport.dataY2021.size() - 1; j++) {
-                if (YearlyReport.dataY2021.get(j)[0].equals("01")) {
-                    sumExpense = totalSumExpense(dataM202101);
-                    sumIncome = totalSumIncome(dataM202101);
-                    if (checkReports(j)) {
-                        checkMonth01 = true;
-                    }
-                }
-                if (YearlyReport.dataY2021.get(j)[0].equals("02")) {
-                    sumExpense = totalSumExpense(dataM202102);
-                    sumIncome = totalSumIncome(dataM202102);
-                    if (checkReports(j)) {
-                        checkMonth02 = true;
-                    }
-                }
-                if (YearlyReport.dataY2021.get(j)[0].equals("03")) {
-                    sumExpense = totalSumExpense(dataM202103);
-                    sumIncome = totalSumIncome(dataM202103);
-                    if (checkReports(j)) {
-                        checkMonth03 = true;
-                    }
-                }
-                if (checkMonth01 && checkMonth02 && checkMonth03) {
-                    System.out.println("Сверка прошла успешно");
+        for (int j = 1; j < YearlyReport.dataY2021.size() - 1; j++) {
+            if (YearlyReport.dataY2021.get(j)[0].equals("01")) {
+                sumExpense = totalSumExpense(dataM202101);
+                sumIncome = totalSumIncome(dataM202101);
+                if (checkReports(j)) {
+                    checkMonth01 = true;
                 }
             }
+            if (YearlyReport.dataY2021.get(j)[0].equals("02")) {
+                sumExpense = totalSumExpense(dataM202102);
+                sumIncome = totalSumIncome(dataM202102);
+                if (checkReports(j)) {
+                    checkMonth02 = true;
+                }
+            }
+            if (YearlyReport.dataY2021.get(j)[0].equals("03")) {
+                sumExpense = totalSumExpense(dataM202103);
+                sumIncome = totalSumIncome(dataM202103);
+                if (checkReports(j)) {
+                    checkMonth03 = true;
+                }
+            }
+            if (checkMonth01 && checkMonth02 && checkMonth03) {
+                    System.out.println("Сверка прошла успешно");
+            }
         }
+    }
 
-        // сверяет данные за каждый месяц из месячного отчёта с данными за этот же месяц в годовом отчёте
+    // сверяет данные за каждый месяц из месячного отчёта с данными за этот же месяц в годовом отчёте
     public boolean checkReports(int j) {
         if (YearlyReport.dataY2021.get(j)[0].equals(YearlyReport.dataY2021.get(j + 1)[0])) {
             if (checkExpensesAndProfitsBetweenMonthAndYear(j)) {
@@ -58,7 +58,7 @@ public class MonthlyReport  {
         return false;
     }
 
-    //проверяет соответствует ли сумма расходов и доходов в месячном отчёте расходам и доходам в годомов отчёте
+    //проверяет, соответствует ли сумма расходов и доходов в месячном отчёте расходам и доходам в годовом отчёте
     public boolean checkExpensesAndProfitsBetweenMonthAndYear(int j) {
         boolean expensesIsCorrect = false;
         boolean profitIsCorrect = false;
@@ -80,7 +80,7 @@ public class MonthlyReport  {
         return expensesIsCorrect && profitIsCorrect;
     }
 
-// получает итоговую сумму по расходам за месяц
+    // получает итоговую сумму по расходам за месяц
     public int totalSumExpense(ArrayList<String[]> data) {
         int sumExpense = 0;
         for (String[] row : data) {

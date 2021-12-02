@@ -9,7 +9,6 @@ public class ReadFile {
     String[] fileM202102;
     String[] fileM202103;
 
-
     // считывает месячные отчёты и сохраняет в переменные dataM202101, dataM202102, dataM202103 класса MonthlyReport
     public void readFileM() {
         String[] lineContents;
@@ -17,21 +16,19 @@ public class ReadFile {
         for (String line : fileM202101) {
             lineContents = line.trim().split(",");
             MonthlyReport.dataM202101.add(lineContents);
-
         }
+
         fileM202102 = ReadFile.readFileContentsOrNull("resources/m.202102.csv").split("\\n");
         for (String line : fileM202102) {
             lineContents = line.trim().split(",");
             MonthlyReport.dataM202102.add(lineContents);
-
         }
+
         fileM202103 = ReadFile.readFileContentsOrNull("resources/m.202103.csv").split("\\n");
         for (String line : fileM202103) {
             lineContents = line.trim().split(",");
             MonthlyReport.dataM202103.add(lineContents);
-
         }
-
     }
 
     // считывает годовой отчёт и сохраняет в переменную dataY2021 класса YearlyReport
@@ -41,7 +38,6 @@ public class ReadFile {
         for (String line : fileY2021) {
             lineContents = line.trim().split(",");
             YearlyReport.dataY2021.add(lineContents);
-
         }
     }
 
@@ -50,7 +46,7 @@ public class ReadFile {
         try {
             return Files.readString(Path.of(path));
         } catch (IOException e) {
-            System.out.println("Невозможно прочитать файл с месячным отчётом. Возможно, файл не находится в нужной директории.");
+            System.out.printf("Невозможно прочитать файл с отчётом. Возможно, файл не находится в нужной директории или путь к файлу указан с ошибкой: %s", path);
             return null;
         }
     }

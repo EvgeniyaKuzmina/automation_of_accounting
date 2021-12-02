@@ -1,4 +1,3 @@
-
 import java.util.Scanner;
 
 public class Main {
@@ -10,53 +9,51 @@ public class Main {
         MonthlyReport monthlyReport = new MonthlyReport();
         YearlyReport yearlyReport = new YearlyReport();
 
+        /* Использовала в коде enum по вашему совету, но честно говоря мне не зашло. :) Я не смогла додуматься,
+        как использовать и enum и switch case вместе, поэтому с enum я применила if — else, но такая конструкция
+        кажется громоздкой на мой взгляд. Я бы предпочла оставить в решении старый вариант со switch case */
         while(true) {
             printMenu();
             command = scanner.next();
-            switch (command) {
-                case "1":
-                    readFile.readFileM();
-                    System.out.println("Месячные отчёты считаны");
-                    System.out.println(" ");
-                    break;
-                case "2":
-                    readFile.readFileY();
-                    System.out.println("Годовой отчёт считан");
-                    System.out.println(" ");
-                    break;
-                case "3":
-                    if (yearlyReport.dataY2021.size() == 0 || monthlyReport.dataM202101.size() == 0) {
-                        System.out.println("Вы забыли считать отчёт");
-                    } else {
-                        monthlyReport.printResultCheckedReports();
-                    }
-                    System.out.println(" ");
-                    break;
-                case "4":
-                    if (monthlyReport.dataM202101.size() == 0) {
-                        System.out.println("Вы забыли считать отчёт");
-                    } else {
-                        monthlyReport.reportInformation();
-                    }
-                    System.out.println(" ");
-                    break;
-                case "5":
-                    if (yearlyReport.dataY2021.size() == 0) {
-                        System.out.println("Вы забыли считать отчёт");
-                    } else {
-                        yearlyReport.reportInformation();
-                    }
-                    System.out.println(" ");
-                    break;
-                case "0":
-                    return;
-                default:
-                    System.out.println("Такой команды нет! Выберите один из вариантов: 1, 2, 3, 4 или 5");
-                    System.out.println(" ");
+            if (command.equals(MenuOptions.ONE.getNumber())) {
+                readFile.readFileM();
+                System.out.println("Месячные отчёты считаны");
+                System.out.println(" ");
+            } else if (command.equals(MenuOptions.TWO.getNumber())) {
+                readFile.readFileY();
+                System.out.println("Годовой отчёт считан");
+                System.out.println(" ");
+            } else if (command.equals(MenuOptions.THREE.getNumber())) {
+                if (yearlyReport.dataY2021.size() == 0 || monthlyReport.dataM202101.size() == 0) {
+                    System.out.println("Вы забыли считать отчёт");
+                } else {
+                    monthlyReport.printResultCheckedReports();
+                }
+                System.out.println(" ");
+            } else if (command.equals(MenuOptions.FOUR.getNumber())) {
+                if (monthlyReport.dataM202101.size() == 0) {
+                    System.out.println("Вы забыли считать отчёт");
+                } else {
+                    monthlyReport.reportInformation();
+                }
+                System.out.println(" ");
+            } else if (command.equals(MenuOptions.FIVE.getNumber())) {
+                if (yearlyReport.dataY2021.size() == 0) {
+                    System.out.println("Вы забыли считать отчёт");
+                } else {
+                    yearlyReport.reportInformation();
+                }
+                System.out.println(" ");
+            } else if (command.equals(MenuOptions.ZERO.getNumber())) {
+                scanner.close();
+                break;
+            } else {
+                System.out.println("Такой команды нет! Выберите один из вариантов: 1, 2, 3, 4 или 5");
+                System.out.println(" ");
             }
+
         }
     }
-
 
     // вывод меню для пользователя
     public static void printMenu() {

@@ -1,7 +1,6 @@
 import java.util.ArrayList;
 import java.util.HashMap;
 
-
  // класс содержит методы, которые помогают получить информацию из годового отчёта
 public class YearlyReport  {
 
@@ -13,7 +12,6 @@ public class YearlyReport  {
         System.out.println("год 2021:");
         profitByEachMonth(dataY2021);
         averageExpensesAndRevenue(dataY2021);
-
     }
 
     // находит прибыль по каждому месяцу в годовом отчёте, где прибыль это разность доходов и расходов
