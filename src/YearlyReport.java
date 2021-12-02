@@ -1,28 +1,22 @@
 import java.util.ArrayList;
 import java.util.HashMap;
 
+
+ // класс содержит методы, которые помогают получить информацию из годового отчёта
 public class YearlyReport  {
-    String[] lineContents;
-    String[] fileY2021;
-    static ArrayList<String[]> dataY2021 = new ArrayList<>();
-    HashMap<String, Integer> profitReportYear = new HashMap<>();
 
+    static ArrayList<String[]> dataY2021 = new ArrayList<>(); //переменная для хранения отчёта за год
+    HashMap<String, Integer> profitReportYear = new HashMap<>(); //хранит информацию о прибыли по каждому месяцу полученной из годового отчёта
 
-    public void readFileY() {
-        fileY2021 = ReadFile.readFileContentsOrNull("resources/y.2021.csv").split("\\n");
-        for (String line : fileY2021) {
-            lineContents = line.trim().split(",");
-            dataY2021.add(lineContents);
-
-        }
-    }
-
+    // выводит пользователю информацию о годовом отчёте
     public void reportInformation() {
         System.out.println("год 2021:");
         profitByEachMonth(dataY2021);
         averageExpensesAndRevenue(dataY2021);
 
     }
+
+    // находит прибыль по каждому месяцу в годовом отчёте, где прибыль это разность доходов и расходов
     public void profitByEachMonth(ArrayList<String[]> data) {
         int profit;
         for (int j = 1; j < data.size()-1; j++ ) {
@@ -41,6 +35,7 @@ public class YearlyReport  {
         }
     }
 
+    // находит средний расход за все месяцы и средний доход за все месяцы
     public void averageExpensesAndRevenue(ArrayList<String[]> data) {
         double sumExpenses = 0.0;
         int countExpenses = 0;

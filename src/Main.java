@@ -6,6 +6,7 @@ public class Main {
 
     public static void main(String[] args) {
         Scanner scanner = new Scanner(System.in);
+        ReadFile readFile = new ReadFile();
         MonthlyReport monthlyReport = new MonthlyReport();
         YearlyReport yearlyReport = new YearlyReport();
 
@@ -14,41 +15,38 @@ public class Main {
             command = scanner.next();
             switch (command) {
                 case "1":
-                    monthlyReport.readFileM();
+                    readFile.readFileM();
                     System.out.println("Месячные отчёты считаны");
                     System.out.println(" ");
                     break;
                 case "2":
-                    yearlyReport.readFileY();
+                    readFile.readFileY();
                     System.out.println("Годовой отчёт считан");
                     System.out.println(" ");
                     break;
                 case "3":
                     if (yearlyReport.dataY2021.size() == 0 || monthlyReport.dataM202101.size() == 0) {
                         System.out.println("Вы забыли считать отчёт");
-                        System.out.println(" ");
                     } else {
-                        monthlyReport.checkReports();
-                        System.out.println(" ");
+                        monthlyReport.printResultCheckedReports();
                     }
+                    System.out.println(" ");
                     break;
                 case "4":
                     if (monthlyReport.dataM202101.size() == 0) {
                         System.out.println("Вы забыли считать отчёт");
-                        System.out.println(" ");
                     } else {
                         monthlyReport.reportInformation();
-                        System.out.println(" ");
                     }
+                    System.out.println(" ");
                     break;
                 case "5":
                     if (yearlyReport.dataY2021.size() == 0) {
                         System.out.println("Вы забыли считать отчёт");
-                        System.out.println(" ");
                     } else {
                         yearlyReport.reportInformation();
-                        System.out.println(" ");
                     }
+                    System.out.println(" ");
                     break;
                 case "0":
                     return;
@@ -59,6 +57,8 @@ public class Main {
         }
     }
 
+
+    // вывод меню для пользователя
     public static void printMenu() {
         System.out.println("Выберите один из вариантов: 1, 2, 3, 4, 5 или 0:");
         System.out.println("1. Считать все месячные отчёты");

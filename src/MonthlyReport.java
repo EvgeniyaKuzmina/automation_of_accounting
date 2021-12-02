@@ -1,40 +1,18 @@
 import java.util.ArrayList;
 
+// класс содержит методы, которые помогают получить информацию из месячных отчётов
 public class MonthlyReport  {
-    String[] lineContents;
-    String[] fileM202101;
-    String[] fileM202102;
-    String[] fileM202103;
-    ArrayList<String[]> dataM202101 = new ArrayList<>();
-    ArrayList<String[]> dataM202102 = new ArrayList<>();
-    ArrayList<String[]> dataM202103 = new ArrayList<>();
-    int sumExpense;
-    int sumIncome;
+
+    static ArrayList<String[]> dataM202101 = new ArrayList<>();  //переменная для хранения отчёта за январь
+    static ArrayList<String[]> dataM202102 = new ArrayList<>();  //переменная для хранения отчёта за февраль
+    static ArrayList<String[]> dataM202103 = new ArrayList<>();  //переменная для хранения отчёта за март
+    int sumExpense; // хранит сумму по расходам
+    int sumIncome; // хранит сумму по доходам
 
 
-    public void readFileM() {
-        fileM202101 = ReadFile.readFileContentsOrNull("resources/m.202101.csv").split("\\n");
-        for (String line : fileM202101) {
-            lineContents = line.trim().split(",");
-            dataM202101.add(lineContents);
 
-        }
-        fileM202102 = ReadFile.readFileContentsOrNull("resources/m.202102.csv").split("\\n");
-        for (String line : fileM202102) {
-            lineContents = line.trim().split(",");
-            dataM202102.add(lineContents);
-
-        }
-        fileM202103 = ReadFile.readFileContentsOrNull("resources/m.202103.csv").split("\\n");
-        for (String line : fileM202103) {
-            lineContents = line.trim().split(",");
-            dataM202103.add(lineContents);
-
-        }
-
-    }
-
-    public void checkReports() {
+    // выводит ответ на экран о результатах проверки месячных и годового отчётов
+    public void printResultCheckedReports() {
         boolean checkMonth01 = false;
         boolean checkMonth02 = false;
         boolean checkMonth03 = false;
@@ -43,21 +21,21 @@ public class MonthlyReport  {
                 if (YearlyReport.dataY2021.get(j)[0].equals("01")) {
                     sumExpense = totalSumExpense(dataM202101);
                     sumIncome = totalSumIncome(dataM202101);
-                    if (checkReports(j, sumExpense, sumIncome)) {
+                    if (checkReports(j)) {
                         checkMonth01 = true;
                     }
                 }
                 if (YearlyReport.dataY2021.get(j)[0].equals("02")) {
                     sumExpense = totalSumExpense(dataM202102);
                     sumIncome = totalSumIncome(dataM202102);
-                    if (checkReports(j, sumExpense, sumIncome)) {
+                    if (checkReports(j)) {
                         checkMonth02 = true;
                     }
                 }
                 if (YearlyReport.dataY2021.get(j)[0].equals("03")) {
                     sumExpense = totalSumExpense(dataM202103);
                     sumIncome = totalSumIncome(dataM202103);
-                    if (checkReports(j, sumExpense, sumIncome)) {
+                    if (checkReports(j)) {
                         checkMonth03 = true;
                     }
                 }
@@ -67,26 +45,10 @@ public class MonthlyReport  {
             }
         }
 
-    public boolean checkReports(int j, int sumExpense, int sumIncome) {
-        boolean expensesIsCorrect = false;
-        boolean profitIsCorrect = false;
-            if (YearlyReport.dataY2021.get(j)[0].equals(YearlyReport.dataY2021.get(j + 1)[0])) {
-                if (Boolean.parseBoolean(YearlyReport.dataY2021.get(j)[2])) {
-                    if (sumExpense == Integer.parseInt(YearlyReport.dataY2021.get(j)[1])) {
-                        expensesIsCorrect = true;
-                        if (sumIncome == Integer.parseInt(YearlyReport.dataY2021.get(j + 1)[1])) {
-                            profitIsCorrect = true;
-                        }
-                    }
-            } else {
-                if (sumIncome == Integer.parseInt(YearlyReport.dataY2021.get(j)[1])) {
-                    profitIsCorrect = true;
-                    if (sumExpense == Integer.parseInt(YearlyReport.dataY2021.get(j + 1)[1])) {
-                        expensesIsCorrect = true;
-                    }
-                }
-            }
-            if (expensesIsCorrect && profitIsCorrect) {
+        // сверяет данные за каждый месяц из месячного отчёта с данными за этот же месяц в годовом отчёте
+    public boolean checkReports(int j) {
+        if (YearlyReport.dataY2021.get(j)[0].equals(YearlyReport.dataY2021.get(j + 1)[0])) {
+            if (checkExpensesAndProfitsBetweenMonthAndYear(j)) {
                 return true;
             } else {
                 System.out.printf("Несоответствие: месяц —  %s\n", YearlyReport.dataY2021.get(j)[0]);
@@ -96,6 +58,29 @@ public class MonthlyReport  {
         return false;
     }
 
+    //проверяет соответствует ли сумма расходов и доходов в месячном отчёте расходам и доходам в годомов отчёте
+    public boolean checkExpensesAndProfitsBetweenMonthAndYear(int j) {
+        boolean expensesIsCorrect = false;
+        boolean profitIsCorrect = false;
+        if (Boolean.parseBoolean(YearlyReport.dataY2021.get(j)[2])) {
+            if (sumExpense == Integer.parseInt(YearlyReport.dataY2021.get(j)[1])) {
+                expensesIsCorrect = true;
+                if (sumIncome == Integer.parseInt(YearlyReport.dataY2021.get(j + 1)[1])) {
+                    profitIsCorrect = true;
+                }
+            }
+        } else {
+            if (sumIncome == Integer.parseInt(YearlyReport.dataY2021.get(j)[1])) {
+                profitIsCorrect = true;
+                if (sumExpense == Integer.parseInt(YearlyReport.dataY2021.get(j + 1)[1])) {
+                    expensesIsCorrect = true;
+                }
+            }
+        }
+        return expensesIsCorrect && profitIsCorrect;
+    }
+
+// получает итоговую сумму по расходам за месяц
     public int totalSumExpense(ArrayList<String[]> data) {
         int sumExpense = 0;
         for (String[] row : data) {
@@ -106,6 +91,7 @@ public class MonthlyReport  {
         return sumExpense;
     }
 
+    // получает итоговую сумму по доходам за месяц
     public int totalSumIncome(ArrayList<String[]> data) {
         int sumIncome = 0;
         for (String[] row : data) {
@@ -116,6 +102,7 @@ public class MonthlyReport  {
         return sumIncome;
     }
 
+    // выводит информацию о всех месячных отчётах
     public void reportInformation() {
             System.out.println("Январь:");
             System.out.println(maxProfitableProduct(dataM202101));
@@ -128,6 +115,7 @@ public class MonthlyReport  {
             System.out.println(maxExpense(dataM202103));
     }
 
+    // находит самый прибыльный товар в месяце
     public String maxProfitableProduct(ArrayList<String[]> data) {
         int max = 0;
         String name = null;
@@ -140,6 +128,7 @@ public class MonthlyReport  {
         return String.format("Самый прибыльный товар: %s — %d", name, max);
     }
 
+    // находит самый затратный товар в месяце
     public String maxExpense(ArrayList<String[]> data) {
         int max = 0;
         String name = null;
